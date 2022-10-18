@@ -8,7 +8,7 @@ word2idx = None
 def init():
     global model,idx2word,word2idx
     print("正在初始化......")
-    datas = np.load("bigdata/LSTM_poem/tang.npz")
+    datas = np.load("bigdata/LSTM_poem/tang.npz",allow_pickle=True)
     data = datas['data']
     idx2word = datas['ix2word'].item()
     word2idx = datas['word2ix'].item()

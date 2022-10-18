@@ -20,7 +20,9 @@ from bigdata import views
 urlpatterns = [
     path('api/index', views.index),
     path('api/nearestWord', views.queryNearestWord),
+    path('api/nearestSentence', views.queryNearestSentence),
     path('api/generatePoem', views.genPoem),
-    path('api/generateAcrostic',views.genAcrostic)
+    path('api/generateAcrostic',views.genAcrostic),
+    path('api/generatePoemByGPT',views.generaetPoemByGPTApi)
     # path('admin/', admin.site.urls),
 ]

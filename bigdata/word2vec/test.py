@@ -4,6 +4,7 @@ from collections import Counter
 
 import scipy
 import torch
+from gensim.models import Word2Vec
 
 from bigdata.word2vec.Config import Config
 from bigdata.word2vec.model import EmbeddingModel
@@ -34,9 +35,11 @@ word2idx = mp[1]
 idx2word = mp[2]
 word_freqs = mp[3]
 word_counts = mp[4]
-model = EmbeddingModel(len(word_freqs), Config.EMBEDDING_SIZE)
-weight = torch.load(Config.modelPath, map_location='cpu')
-model.load_state_dict(weight)
+# model = EmbeddingModel(len(word_freqs), Config.EMBEDDING_SIZE)
+# weight = torch.load(Config.modelPath, map_location='cpu')
+# model.load_state_dict(weight)
+
+model = Word2Vec.load('./data/gensim_w2v_perpoetry_model')  # 调用模型
 
 
 def find_nearest(embedding_weights, word, nums=10):
@@ -57,13 +60,17 @@ def test():
     #     print(word, find_nearest(embedding_weights, word))
 
 
-def query_nearestWord(wordList, num=10):
-    embedding_weights = model.input_embedding()
-    res = {}
-    for word in wordList:
-        res[word] = find_nearest(embedding_weights, word, num + 1)[1:-1]
-    return res
-
+# def query_nearestWord(wordList, num=10):
+#     embedding_weights = model.input_embedding()
+#     res = {}
+#     for word in wordList:
+#         res[word] = find_nearest(embedding_weights, word, num + 1)[1:-1]
+#
+#     return res
+def query_nearestWord(word, num=10):
+    # 计算某个词的相关词列表
+    top_n = model.wv.most_similar(word, topn=num)  # 最相关的几个词
+    return top_n
 
 if __name__ == '__main__':
-    query_nearestWord(['喜'])
+    print(query_nearestWord('喜'))
