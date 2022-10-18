@@ -78,7 +78,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'bigDataAnalyze.wsgi.application'
+# WSGI_APPLICATION = 'bigDataAnalyze.wsgi.application'
+ASGI_APPLICATION = 'bigDataAnalyze.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

@@ -7,11 +7,12 @@ from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer
 
 from bigdata.LSTM_poem.test import generateApi, gen_acrosticApi
+from bigdata.WMD.wmd import userQuery
 from bigdata.utils.response.renderer import CustomRenderer
 from bigdata.utils.response.result import ok_data
 from bigdata.word2vec.word2vecApi import query_nearestWord
 from bigdata.GPT2_Chinese.main import generatePoemByGPT
-
+from asgiref.sync import sync_to_async
 
 def index(request):
     return HttpResponse("欢迎使用")
@@ -48,9 +49,10 @@ def genAcrostic(request):
 def queryNearestSentence(request):
     jsonData = json.loads(request.body)
     wordList = jsonData['text']
-    num = jsonData['num']
-    res = query_nearestWord(wordList, num)
-    return ok_data(res)
+    precision = jsonData['precision']
+    number = jsonData["number"]
+    res = userQuery(wordList, int(precision), int(number))
+    return Response(res)
 
 
 @api_view(('POST',))
